@@ -1,39 +1,66 @@
-# 같은 행열이 아닐 것
-# 대각선이 아닐 것
-# 델타 -> 우주괴물
-
 # 변수
 # N = int(input())
 # visited > visited = [[0]*N for _ in range(N)]
 
-dr = [-1, -1, -1, 0, 1, 1, 1, 0]
-dc = [-1, 0, 1, 1, 1, 0, -1, -1]
+
+dr = [1, 1, 1]
+dc = [-1, 1, 0]
 
 N = int(input())
-visited = [[0]*N for _ in range(N)]
+visited = [[10**9]*N for _ in range(N)]
 count = 0
 
-def dfs(r, c):
+def dfs(r):
     global count
-    visited[r][c] = 1
-    count += 1 # 문제?
-    # 리턴어디서?
+    if r == N:      
+        count += 1
+        return
+    
+    for c in range(N):
+        if visited[r][c] == 10**9:
+            visited[r][c] = -1
+            for dir in range(3):
+                nr = r
+                nc = c
+                
+                while  1:
+                    nr += dr[dir]
+                    nc += dc[dir]
+                    if 0 <= nr < N and 0 <= nc < N:
+                        if visited[nr][nc] > r+1:              
+                            visited[nr][nc] = r+1 # 우주괴물 광선발사
+                    else:
+                        break
 
-    for dir in range(8):
-        nr = r + dr[dir]
-        nc = c + dc[dir]
+     
+            dfs(r+1)
+            visited[r][c] = 10**9
+            for dir in range(3): # 광선 원복
+                nr = r
+                nc = c
 
-        while 0 <= nr < N and 0 <= nc < N and visited[nr][nc] == 0:
-            visited[nr][nc] = 1
-            nr =+ dr[dir]
-            nc =+ dc[dir]
+                while  1:
+                    nr += dr[dir]
+                    nc += dc[dir]
+                    if 0 <= nr < N and 0 <= nc < N:
+                        if visited[nr][nc] == r+1:              
+                            visited[nr][nc] = 10**9 # 우주괴물 광선발사
+                    else:
+                        break
+dfs(0)
+print(count)          
+            
 
-            dfs(nr, nc) #문제?
-            # visited[r][c] = 0
+    # for dir in range(3):
+    #     nr = r + dr[dir]
+    #     nc = c + dc[dir]
 
-for i in range(N):
-    for j in range(N):
-        if visited[i][j] == 0:
-            dfs(i, j) 
+    #     while 0 <= nr < N and 0 <= nc < N and visited[nr][nc] == 0:
+    #         visited[nr][nc] = 1
+    #         nr =+ dr[dir]
+    #         nc =+ dc[dir]
 
-print(count)
+            # dfs(nr, nc) #문제?
+            # # visited[r][c] = 0
+
+
