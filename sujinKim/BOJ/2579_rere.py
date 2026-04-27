@@ -17,12 +17,13 @@ input = sys.stdin.readline
 # *점화식 : 수열에서 이웃하는 항들 사이의 관계를 나타낸 식
 # 현재 단계의 정답을 구하기 위해 이전 단계의 정답들을 어떻게 조합해야 하는가?
 
+## stairs = 각 계단에 적혀 있는 점수 !! 
 
 def STAIR():
     N = int(input())
     stairs = [0] * 301
     for i in range(1, N+1):
-        stairs[i] = int(input())
+        stairs[i] = int(input()) # 각 계단에 적힌거 입력받기 
 
     # DP 테이블 초기화 (i번째 계단까지 최댓값 저장)
     DP = [0] * 301
